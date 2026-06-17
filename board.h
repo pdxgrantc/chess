@@ -9,7 +9,7 @@ class Board
 private:
     Piece board[8][8];
     void setupBoard();
-    char printHeader[9] = "ABCDEFGH"; //['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+    char printHeader[9] = "ABCDEFGH";
 
 public:
     Board(/* args */);

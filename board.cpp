@@ -34,7 +34,8 @@ void Board::printBoard()
         std::cout << (i);
         for (int j = 0; j < 8; j++)
         {
-            std::cout << " | " << board[(i - 1)][j].type;
+            std::cout << " | "; 
+            board[(i - 1)][j].printPiece();
         }
         std::cout << " |" << std::endl;
     }
@@ -67,10 +68,10 @@ void Board::setupBoard()
     board[7][5].setPiece(1, 3);
     // Queens
     board[0][3].setPiece(0, 5);
-    board[7][3].setPiece(0, 5);
+    board[7][3].setPiece(1, 5);
     // King
     board[0][4].setPiece(0, 6);
-    board[7][4].setPiece(0, 6);
+    board[7][4].setPiece(1, 6);
 
     printBoard();
 }

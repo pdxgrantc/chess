@@ -2,9 +2,13 @@
 #define PIECE_H
 
 #include <vector>
+#include <string>
 
 class Piece
 {
+private:
+    std::string getCorrectIcon();
+
 public:
     int type; // 0 = no piece, 1 = pawn, 2=knight, 3=bishop, 4=rook, 5=queen, 6=king
     int player;
@@ -12,6 +16,7 @@ public:
     void setPiece(int player, int type);
     ~Piece();
     Piece &operator=(const Piece &other);
+    void printPiece();
 };
 
 #include "piece.cpp"

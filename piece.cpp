@@ -58,56 +58,43 @@ void Piece::printPiece()
 std::string Piece::getCorrectIcon()
 {
     if (player == 0)
-    { // white
+    {
         switch (type)
         {
         case 1:
-            return " ";
-            break;
+            return u8"\u2659"; // ♙
         case 2:
-            return " ";
-            break;
+            return u8"\u2658"; // ♘
         case 3:
-            return " ";
-            break;
+            return u8"\u2657"; // ♗
         case 4:
-            return " ";
-            break;
+            return u8"\u2656"; // ♖
         case 5:
-            return " ";
-            break;
+            return u8"\u2655"; // ♕
         case 6:
-            return "\u265A";
-            break;
+            return u8"\u2654"; // ♔
         default:
             return " ";
-            break;
         }
-    }else {
+    }
+    else
+    {
         switch (type)
         {
         case 1:
-            return " ";
-            break;
+            return u8"\u265F"; // ♟
         case 2:
-            return " ";
-            break;
+            return u8"\u265E"; // ♞
         case 3:
-            return " ";
-            break;
+            return u8"\u265D"; // ♝
         case 4:
-            return " ";
-            break;
+            return u8"\u265C"; // ♜
         case 5:
-            return " ";
-            break;
+            return u8"\u265B"; // ♛
         case 6:
-            return "b";
-            return "\u2654";
-            break;
+            return u8"\u265A"; // ♚
         default:
             return " ";
-            break;
         }
     }
 }

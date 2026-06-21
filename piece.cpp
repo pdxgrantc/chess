@@ -12,6 +12,11 @@ Piece::Piece()
     this->player = 0;
 }
 
+/*
+ * @brief Sets the player and type of piece for particular board cell.
+ * @param player integer value for the player 0 is white 1 is black.
+ * @param type of piece 0 being pawn through king being 6.
+ */
 void Piece::setPiece(int player, int type)
 {
     this->type = type;

@@ -19,6 +19,7 @@ Board::~Board()
 
 void Board::printBoard()
 {
+    // TODO fix print order so that white is printed in the correct 1a side of the board   
     int i;
     std::cout << std::endl << " ";
     for (i = 0; i < 8; i++)
@@ -44,6 +45,8 @@ void Board::printBoard()
 
 void Board::setupBoard()
 {
+    // White is on ranks 1,2 
+    // Black is on ranks 7,8
     int i, j;
     // player 1
     for (i = 0; i < 8; i++)

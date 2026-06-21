@@ -6,6 +6,8 @@
 #include "board.h"
 #include "piece.h"
 
+using namespace std;
+
 Board::Board(/* args */)
 {
     // allocate board
@@ -19,33 +21,69 @@ Board::~Board()
 
 void Board::printBoard()
 {
-    // TODO fix print order so that white is printed in the correct 1a side of the board   
-    int i;
+    // print from 0.0 to 0.7 then up to 7 row counter
+
+    // TODO fix print order so that white is printed in the correct 1a side of the board
+    int i, j;
+
+    for (i = 7; i > -1; i--)
+    {
+        cout << "i: " << i << " j: ";
+        for (j = 0; j < 8; j++)
+        {
+            cout << j << " ";
+        }
+        cout << endl;
+    }
+
+    cout << endl;
+
+    for (j = 0; j < 8; j++)
+    {
+        std::cout << "   " << printHeader[i];
+    }
+    cout << endl;
+    for (i = 7; i > -1; i--)
+    {
+        std::cout << "  ---------------------------------" << std::endl;
+        std::cout << (i + 1);
+        for (j = 0; j < 8; j++)
+        {
+            std::cout << " | ";
+            board[(i)][j].printPiece();
+        }
+        std::cout << " |" << std::endl;
+    }
+    std::cout << "  ---------------------------------" << std::endl;
+
+    /*
     std::cout << std::endl << " ";
-    for (i = 0; i < 8; i++)
+    // I is for row and  j is for column
+    for (j = 0; j < 8; j++)
     {
         std::cout << "   " << printHeader[i];
     }
     std::cout << "  " ;
     std::cout << std::endl;
-    for (i = 8; i > 0; i--)
+    for (i = 7; i > -1; i--)
     {
-
+        std::cout << "I: " << j << std::endl;
         std::cout << "  ---------------------------------" << std::endl;
         std::cout << (i);
-        for (int j = 0; j < 8; j++)
+        for (j = 0; j < 8; j++)
         {
-            std::cout << " | "; 
+            std::cout << " | ";
             board[(i - 1)][j].printPiece();
         }
         std::cout << " |" << std::endl;
     }
     std::cout << "  ---------------------------------" << std::endl;
+    */
 }
 
 void Board::setupBoard()
 {
-    // White is on ranks 1,2 
+    // White is on ranks 1,2
     // Black is on ranks 7,8
     int i, j;
     // player 1

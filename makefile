@@ -1,3 +1,5 @@
+# TODO remake make file with build rules for each file so they get recompiled upon a save
+
 # Directories
 BUILD_DIR = build
 OBJ_DIR = $(BUILD_DIR)/obj

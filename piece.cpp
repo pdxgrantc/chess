@@ -10,6 +10,7 @@ Piece::Piece()
 {
     this->type = 0;
     this->player = 0;
+    this->moves = 0;
 }
 
 /*
@@ -62,7 +63,7 @@ void Piece::printPiece()
 
 std::string Piece::getCorrectIcon()
 {
-    if (player == 0)
+    if (player == 1)
     {
         switch (type)
         {

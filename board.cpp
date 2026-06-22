@@ -36,11 +36,10 @@ void Board::printBoard()
         cout << endl;
     }
 
-    cout << endl;
-
+    std::cout << " \n ";
     for (j = 0; j < 8; j++)
     {
-        std::cout << "   " << printHeader[i];
+        std::cout << "   " << printHeader[j];
     }
     cout << endl;
     for (i = 7; i > -1; i--)

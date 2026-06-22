@@ -1,9 +1,9 @@
 #include <iostream>
-#include "board.h"
+#include "game.h"
 
 int main() {
-    Board *gameBoard = new Board;
+    Game *chess = new Game;
 
-    delete gameBoard;
+    delete chess;
     return 0;
 }

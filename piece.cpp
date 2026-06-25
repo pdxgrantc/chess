@@ -63,7 +63,7 @@ void Piece::printPiece()
 
 std::string Piece::getCorrectIcon()
 {
-    if (player == 1)
+    if (player == 0)
     {
         switch (type)
         {

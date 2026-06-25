@@ -7,3 +7,10 @@ int main() {
     delete chess;
     return 0;
 }
+
+/*
+Valid Move
+1. Is in check/checkmate
+User input
+
+*/

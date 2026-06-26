@@ -78,10 +78,13 @@ void Game::isInCheck()
                     isInCheck = findPawnCheck(ik, jk, i, j);
                     break;
                 case 2: // knight
+                    isInCheck = findKnightCheck(ik, jk, i, j);
                     break;
                 case 3: // bishop
+                    isInCheck = findBishopCheck(ik, jk, i, j);
                     break;
                 case 4: // rook
+                    isInCheck = findRookCheck(ik, jk, i, j);
                     break;
                 case 5: // queen
                     break;
@@ -107,7 +110,7 @@ bool Game::findPawnCheck(int ik, int jk, int ip, int jp)
 {
     if (player_to_move == 0)
     {
-        // White's turn
+        //! White's turn
         // cant move down more
         if (ip == 0)
         {
@@ -118,21 +121,19 @@ bool Game::findPawnCheck(int ik, int jk, int ip, int jp)
         // if down and left
         if (((ip - 1) == ik) && ((jp - 1) == jk))
         {
-            cout << "Checking pawn location IP: " << ip << ", JP: " << jp << endl;
             return true;
         }
 
         // if down and right
         if (((ip - 1) == ik) && ((jp + 1) == jk))
         {
-            cout << "Checking pawn location IP: " << ip << ", JP: " << jp << endl;
             return true;
         }
         // TODO en passant
     }
     else
     {
-        // Black's turn
+        //! Black's turn
         if (ip == 7)
         {
             // cant move up
@@ -151,6 +152,273 @@ bool Game::findPawnCheck(int ik, int jk, int ip, int jp)
             return true;
         }
         // TODO en passant
+    }
+    return false;
+}
+
+/*
+ * @brief takes a current players king location and checks if they are in check by an opposing knight.
+ * @param ik rank of the defending king
+ * @param jk file of the defending king
+ * @param in rank of the attacking knight
+ * @param jn file of the attacking knight
+ */
+bool Game::findKnightCheck(int ik, int jk, int in, int jn)
+{
+    // Turn doesn't matter for knights
+    // up left
+    if (((in + 2) == ik) && ((jn - 1) == jk))
+    {
+        return true;
+    }
+    // up right
+    if (((in + 2) == ik) && ((jn + 1) == jk))
+    {
+        return true;
+    }
+
+    // left up
+    if (((in + 1) == ik) && ((jn - 2) == jk))
+    {
+        return true;
+    }
+    // left down
+    if (((in - 1) == ik) && ((jn - 2) == jk))
+    {
+        return true;
+    }
+    // down left
+    if (((in - 2) == ik) && ((jn - 1) == jk))
+    {
+        return true;
+    }
+    // down right
+    if (((in - 2) == ik) && ((jn + 1) == jk))
+    {
+        return true;
+    }
+    // right up
+    if (((in + 1) == ik) && ((jn + 2) == jk))
+    {
+        return true;
+    }
+    // right down
+    if (((in - 1) == ik) && ((jn + 2) == jk))
+    {
+        return true;
+    }
+    return false;
+}
+
+/*
+ * @brief takes a current players king location and checks if they are in check by an opposing bishop.
+ * @param ik rank of the defending king
+ * @param jk file of the defending king
+ * @param ib rank of the attacking bishop
+ * @param jb file of the attacking bishop
+ */
+bool Game::findBishopCheck(int ik, int jk, int ib, int jb)
+{
+    // up left diagonal
+    int i = ib, j = jb;
+    while ((i < 8) && (j > -1))
+    {
+        // increment up and left
+        i++;
+        j--;
+
+        // cout << i << ", " << j<< endl;
+        // check if the king is here
+        if ((ik == i) && (jk == j))
+        {
+            // king is in check
+            return true;
+        }
+
+        // check for piece in new square
+        int typeInSquare = gameBoard->getType(i, j);
+        if (typeInSquare != 0)
+        {
+            // Piece is there we can break the loop
+            break;
+        }
+    }
+
+    // up right diagonal
+    i = ib, j = jb;
+    while ((i < 8) && (j < 8))
+    {
+        // increment up and left
+        i++;
+        j++;
+
+        // check if the king is here
+        if ((ik == i) && (jk == j))
+        {
+            // king is in
+            return true;
+        }
+
+        // check for piece in new square
+        int typeInSquare = gameBoard->getType(i, j);
+        if (typeInSquare != 0)
+        {
+            // Piece is there we can break the loop
+            break;
+        }
+    }
+
+    // down left diagonal
+    i = ib, j = jb;
+    while ((i > -1) && (j > -1))
+    {
+        // increment up and left
+        i--;
+        j--;
+
+        // check if the king is here
+        if ((ik == i) && (jk == j))
+        {
+            // king is in
+            return true;
+        }
+
+        // check for piece in new square
+        int typeInSquare = gameBoard->getType(i, j);
+        if (typeInSquare != 0)
+        {
+            // Piece is there we can break the loop
+            break;
+        }
+    }
+
+    // down right diagonal
+    i = ib, j = jb;
+    while ((i > -1) && (j < 8))
+    {
+        // increment up and left
+        i--;
+        j++;
+
+        // check if the king is here
+        if ((ik == i) && (jk == j))
+        {
+            // king is in
+            return true;
+        }
+
+        // check for piece in new square
+        int typeInSquare = gameBoard->getType(i, j);
+        if (typeInSquare != 0)
+        {
+            // Piece is there we can break the loop
+            break;
+        }
+    }
+    return false;
+}
+
+/*
+ * @brief takes a current players king location and checks if they are in check by an opposing rook.
+ * @param ik rank of the defending king
+ * @param jk file of the defending king
+ * @param ir rank of the attacking rook
+ * @param jr file of the attacking rook
+ */
+bool Game::findRookCheck(int ik, int jk, int ir, int jr)
+{
+    // up
+    int i = ir, j = jr;
+    while (i < 8)
+    {
+        // Increment
+        i++;
+
+        // check if the king is here
+        if ((ik == i) && (jk == j))
+        {
+            // king is in
+            return true;
+        }
+
+        // check for piece in new square
+        int typeInSquare = gameBoard->getType(i, j);
+        if (typeInSquare != 0)
+        {
+            // Piece is there we can break the loop
+            break;
+        }
+    }
+
+    // right
+    i = ir, j = jr;
+    while (i > -1)
+    {
+        // Increment
+        i--;
+
+        // check if the king is here
+        if ((ik == i) && (jk == j))
+        {
+            // king is in
+            return true;
+        }
+
+        // check for piece in new square
+        int typeInSquare = gameBoard->getType(i, j);
+        if (typeInSquare != 0)
+        {
+            // Piece is there we can break the loop
+            break;
+        }
+    }
+
+    // down
+    i = ir, j = jr;
+    while (j < 8)
+    {
+        // Increment
+        j++;
+
+        // check if the king is here
+        if ((ik == i) && (jk == j))
+        {
+            // king is in
+            return true;
+        }
+
+        // check for piece in new square
+        int typeInSquare = gameBoard->getType(i, j);
+        if (typeInSquare != 0)
+        {
+            // Piece is there we can break the loop
+            break;
+        }
+    }
+
+    // left
+    i = ir, j = jr;
+    while (j > -1)
+    {
+        // Increment
+        j--;
+
+        cout << "i: " << i << ", j: " << j << endl;
+        // check if the king is here
+        if ((ik == i) && (jk == j))
+        {
+            cout << "found check" << endl;
+            // king is in
+            return true;
+        }
+
+        // check for piece in new square
+        int typeInSquare = gameBoard->getType(i, j);
+        if (typeInSquare != 0)
+        {
+            // Piece is there we can break the loop
+            break;
+        }
     }
     return false;
 }

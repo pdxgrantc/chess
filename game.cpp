@@ -33,7 +33,7 @@ void Game::gameLoop()
     cout << "Starting game. Player " << (this->player_to_move + 1) << "'s turn." << endl;
 
     // Is my player in check
-    isInCheck();
+    cout << isInCheck() << endl;
     // isCheckmate();
 
     // Is check mate
@@ -41,7 +41,7 @@ void Game::gameLoop()
     // Check if valid move
 }
 
-void Game::isInCheck()
+bool Game::isInCheck()
 {
     // for across game and only for current player
 
@@ -62,7 +62,7 @@ void Game::isInCheck()
             }
         }
     }
-
+    bool isInCheck = false;
     for (i = 0; i < 8; i++)
     {
         for (j = 0; j < 8; j++)
@@ -70,7 +70,7 @@ void Game::isInCheck()
             // find other player's pieces
             if (gameBoard->getPlayer(i, j) != player_to_move)
             {
-                bool isInCheck = false;
+                
                 // For each piece pass current king location in and check for a check condition
                 switch (gameBoard->getType(i, j))
                 {
@@ -87,6 +87,7 @@ void Game::isInCheck()
                     isInCheck = findRookCheck(ik, jk, i, j);
                     break;
                 case 5: // queen
+                    isInCheck = findQueenCheck(ik, jk, i, j);
                     break;
                 // case 6: // king
                 //    break;
@@ -94,9 +95,14 @@ void Game::isInCheck()
                     // blank or king
                     break;
                 }
+                
+                if (isInCheck) {
+                    return true;
+                }
             }
         }
     }
+    return false;
 }
 
 /*
@@ -227,7 +233,6 @@ bool Game::findBishopCheck(int ik, int jk, int ib, int jb)
         i++;
         j--;
 
-        // cout << i << ", " << j<< endl;
         // check if the king is here
         if ((ik == i) && (jk == j))
         {
@@ -403,11 +408,9 @@ bool Game::findRookCheck(int ik, int jk, int ir, int jr)
         // Increment
         j--;
 
-        cout << "i: " << i << ", j: " << j << endl;
         // check if the king is here
         if ((ik == i) && (jk == j))
         {
-            cout << "found check" << endl;
             // king is in
             return true;
         }
@@ -419,6 +422,22 @@ bool Game::findRookCheck(int ik, int jk, int ir, int jr)
             // Piece is there we can break the loop
             break;
         }
+    }
+    return false;
+}
+
+/*
+ * @brief takes a current players king location and checks if they are in check by an opposing rook.
+ * @param ik rank of the defending king
+ * @param jk file of the defending king
+ * @param ir rank of the attacking queen
+ * @param jr file of the attacking queen
+ */
+bool Game::findQueenCheck(int ik, int jk, int iq, int jq)
+{
+    if (findBishopCheck(ik, jk, iq, jq) || findRookCheck(ik, jk, iq, jq))
+    {
+        return true;
     }
     return false;
 }

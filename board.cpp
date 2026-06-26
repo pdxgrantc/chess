@@ -112,11 +112,11 @@ void Board::setupTestBoard()
         board[6][i].setPiece(1, 1);
     }
 
-    // Bishop
-    board[5][4].setPiece(1, 4);
+    // Test piece
+    board[4][4].setPiece(1, 3);
 
     // King
-    board[5][2].setPiece(0, 6);
+    board[4][2].setPiece(0, 6);
     board[7][4].setPiece(1, 6);
     printBoard();
 }

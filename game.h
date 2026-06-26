@@ -10,7 +10,7 @@ private:
     int turn;
 
     Board *gameBoard;
-    void isInCheck();
+    bool isInCheck();
     // Specific piece check finding functions
     bool findPawnCheck(int, int, int, int);
     bool findKnightCheck(int, int, int, int);

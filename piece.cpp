@@ -24,24 +24,6 @@ void Piece::setPiece(int player, int type)
     this->player = player;
 }
 
-Piece::~Piece()
-{
-}
-
-Piece &Piece::operator=(const Piece &other)
-{
-    // Self assignment protection
-    if (this == &other)
-    {
-        return *this;
-    }
-
-    type = other.type;
-    player = other.player;
-
-    return *this;
-}
-
 void Piece::printPiece()
 {
     std::cout << getCorrectIcon();

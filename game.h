@@ -10,14 +10,15 @@ private:
     int turn;
 
     Board *gameBoard;
-    bool isInCheck();
+    bool isInCheck(int, int);
     // Specific piece check finding functions
+    std::pair<int, int> findKing();
     bool findPawnCheck(int, int, int, int);
     bool findKnightCheck(int, int, int, int);
     bool findBishopCheck(int, int, int, int);
     bool findRookCheck(int, int, int, int);
     bool findQueenCheck(int, int, int, int);
-    bool findKingCheck(int, int, int, int);
+    bool isCheckmate(int, int);
 
 public:
     Game();

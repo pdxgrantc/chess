@@ -16,8 +16,6 @@ public:
 
     Piece();
     void setPiece(int player, int type);
-    ~Piece();
-    Piece &operator=(const Piece &other);
     void printPiece();
 };
 

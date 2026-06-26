@@ -32,36 +32,53 @@ void Game::gameLoop()
 {
     cout << "Starting game. Player " << (this->player_to_move + 1) << "'s turn." << endl;
 
-    // Is my player in check
-    cout << isInCheck() << endl;
-    // isCheckmate();
+    // Check
+    auto [ik, jk] = findKing();
+    bool check = isInCheck(ik, jk);
 
-    // Is check mate
+    // Checkmate
+    if (check) // only check for checkmate if in check
+    {
+        bool checkmate = isCheckmate(ik, jk);
+        if (checkmate)
+        {
+            cout << "Checkmate lol" << endl;
+        }
+        else
+        {
+            cout << "No checkmate" << endl;
+        }
+    }
+
     // Take user input
     // Check if valid move
 }
 
-bool Game::isInCheck()
+std::pair<int, int> Game::findKing()
 {
-    // for across game and only for current player
-
-    int ik, jk; // Variables to store where current player has their king
-
-    int i, j;
-    // FInd Current player king
-    for (i = 0; i < 8; i++)
+    for (int i = 0; i < 8; i++)
     {
-        for (j = 0; j < 8; j++)
+        for (int j = 0; j < 8; j++)
         {
             // Loop through all board indexes
             if ((gameBoard->getPlayer(i, j) == this->player_to_move) && (gameBoard->getType(i, j) == 6))
             {
-                // Save current player's king location
-                ik = i;
-                jk = j;
+                // Return current player's king location
+                return {i, j};
             }
         }
     }
+    return {0, 0};
+}
+
+/*
+ * @brief Finds if there is an opposing piece that puts the player to move in check.
+ * @param ik rank of the king to move
+ * @param jk file of the king to move
+ */
+bool Game::isInCheck(int ik, int jk)
+{
+    int i, j;
     bool isInCheck = false;
     for (i = 0; i < 8; i++)
     {
@@ -70,7 +87,7 @@ bool Game::isInCheck()
             // find other player's pieces
             if (gameBoard->getPlayer(i, j) != player_to_move)
             {
-                
+
                 // For each piece pass current king location in and check for a check condition
                 switch (gameBoard->getType(i, j))
                 {
@@ -89,14 +106,14 @@ bool Game::isInCheck()
                 case 5: // queen
                     isInCheck = findQueenCheck(ik, jk, i, j);
                     break;
-                // case 6: // king
-                //    break;
                 default:
                     // blank or king
                     break;
                 }
-                
-                if (isInCheck) {
+
+                // If in check return
+                if (isInCheck)
+                {
                     return true;
                 }
             }
@@ -440,6 +457,139 @@ bool Game::findQueenCheck(int ik, int jk, int iq, int jq)
         return true;
     }
     return false;
+}
+
+/*
+ * @brief Will calculate if the king is in checkmate
+ */
+bool Game::isCheckmate(int ik, int jk)
+{
+    // TODO refactor to allow taking of opponents pieces if in check
+    // Old king location
+    int oik = ik, ojk = jk;
+    // up
+    if ((ik + 1) < 8) // board edge
+    {
+        if (gameBoard->getType(ik + 1, jk) == 0) // check if there is a piece there
+        {
+            // Move king to new square
+            gameBoard->tempMove(oik, ojk, ik + 1, jk);
+            if (isInCheck(ik + 1, jk) == false)
+            {
+                gameBoard->tempMove(ik + 1, jk, oik, ojk);
+                return false;
+            }
+            gameBoard->tempMove(ik + 1, jk, oik, ojk);
+        }
+    }
+    // up right
+    if (((ik + 1) < 8) && ((jk + 1) < 8)) // board edge
+    {
+        if (gameBoard->getType(ik + 1, jk + 1) == 0) // check if there is a piece there
+        {
+            // Move king to new square
+            gameBoard->tempMove(oik, ojk, ik + 1, jk + 1);
+            if (isInCheck(ik + 1, jk + 1) == false)
+            {
+                gameBoard->tempMove(ik + 1, jk + 1, oik, ojk);
+                return false;
+            }
+            gameBoard->tempMove(ik + 1, jk + 1, oik, ojk);
+        }
+    }
+    // right
+    if ((jk + 1) < 8) // board edge
+    {
+        if (gameBoard->getType(ik, jk + 1) == 0) // check if there is a piece there
+        {
+            // Move king to new square
+            gameBoard->tempMove(oik, ojk, ik, jk + 1);
+            if (isInCheck(ik, jk + 1) == false)
+            {
+                gameBoard->tempMove(ik, jk + 1, oik, ojk);
+                return false;
+            }
+            gameBoard->tempMove(ik, jk + 1, oik, ojk);
+        }
+    }
+    // down right
+    if (((ik - 1) > -1) && ((jk + 1) < 8)) // board edge
+    {
+        if (gameBoard->getType(ik - 1, jk + 1) == 0) // check if there is a piece there
+        {
+            // Move king to new square
+            gameBoard->tempMove(oik, ojk, ik - 1, jk + 1);
+            if (isInCheck(ik - 1, jk + 1) == false)
+            {
+                gameBoard->tempMove(ik - 1, jk + 1, oik, ojk);
+                return false;
+            }
+            gameBoard->tempMove(ik - 1, jk + 1, oik, ojk);
+        }
+    }
+    // down
+    if ((ik - 1) > -1) // board edge
+    {
+        if (gameBoard->getType(ik - 1, jk) == 0) // check if there is a piece there
+        {
+            // Move king to new square
+            gameBoard->tempMove(oik, ojk, ik - 1, jk);
+            if (isInCheck(ik - 1, jk) == false)
+            {
+                gameBoard->tempMove(ik - 1, jk, oik, ojk);
+                return false;
+            }
+            gameBoard->tempMove(ik - 1, jk, oik, ojk);
+        }
+    }
+    // down left
+    if (((ik - 1) > -1) && ((jk - 1) > -1)) // board edge
+    {
+        if (gameBoard->getType(ik - 1, jk - 1) == 0) // check if there is a piece there
+        {
+            // Move king to new square
+            gameBoard->tempMove(oik, ojk, ik - 1, jk - 1);
+            if (isInCheck(ik - 1, jk - 1) == false)
+            {
+                gameBoard->tempMove(ik - 1, jk - 1, oik, ojk);
+                return false;
+            }
+            gameBoard->tempMove(ik - 1, jk - 1, oik, ojk);
+        }
+    }
+    // left
+    if ((jk - 1) > -1) // board edge
+    {
+        if (gameBoard->getType(ik, jk - 1) == 0) // check if there is a piece there
+        {
+            // Move king to new square
+            gameBoard->tempMove(oik, ojk, ik, jk - 1);
+            gameBoard->printBoard();
+            if (isInCheck(ik, jk - 1) == false)
+            {
+                gameBoard->tempMove( ik, jk - 1, oik, ojk);
+                return false;
+            }
+            gameBoard->tempMove( ik, jk - 1, oik, ojk);
+        }
+    }
+    // up left
+    if (((ik + 1) < 8) && ((jk - 1) > -1)) // board edge
+    {
+        if (gameBoard->getType(ik + 1, jk - 1) == 0) // check if there is a piece there
+        {
+            // Move king to new square
+            gameBoard->tempMove(oik, ojk, ik + 1, jk - 1);
+            if (isInCheck(ik + 1, jk - 1) == false)
+            {
+                gameBoard->tempMove(ik + 1, jk - 1, oik, ojk);
+                return false;
+            }
+            gameBoard->tempMove(ik + 1, jk - 1, oik, ojk);
+        }
+    }
+
+    return true;
 }
 
 #endif

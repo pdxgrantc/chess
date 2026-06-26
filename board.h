@@ -16,6 +16,7 @@ public:
     Board(/* args */);
     Board(int i);
     ~Board();
+    void tempMove(int, int, int, int);
     void printBoard();
     int getPlayer(int, int);
     int getType(int, int);

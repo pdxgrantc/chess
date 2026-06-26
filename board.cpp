@@ -42,6 +42,25 @@ int Board::getType(int i, int j)
     return board[i][j].type;
 }
 
+/*
+ * @brief Function to temporally move a piece to a new square.
+ * It will not increment the move counter for the piece or the player/game.
+ * @attention The move will not occur if the new rank and file already contains a piece. 
+ * @param oi old rank
+ * @param oj old file
+ * @param ni new rank
+ * @param nj new file
+ */
+void Board::tempMove(int oi, int oj, int ni, int nj) {
+    // Confirm empty new square
+    if (board[ni][nj].type == 0) {
+        // Make move
+        Piece cache = board[ni][nj];
+        board[ni][nj] = board[oi][oj];
+        board[oi][oj] = cache;
+    }
+}
+
 void Board::printBoard()
 {
     int i, j;
@@ -113,10 +132,16 @@ void Board::setupTestBoard()
     }
 
     // Test piece
-    board[4][4].setPiece(1, 3);
+    board[2][3].setPiece(1, 1);
+    board[4][3].setPiece(1, 1);
+    board[2][3].setPiece(1, 1);
+    board[4][3].setPiece(1, 1);
+
+    board[3][2].setPiece(1, 4);
+    board[4][5].setPiece(1, 3);
 
     // King
-    board[4][2].setPiece(0, 6);
+    board[3][3].setPiece(0, 6);
     board[7][4].setPiece(1, 6);
     printBoard();
 }

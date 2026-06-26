@@ -1,57 +1,50 @@
-# TODO remake make file with build rules for each file so they get recompiled upon a save
-
 # Directories
 BUILD_DIR = build
 OBJ_DIR = $(BUILD_DIR)/obj
 BIN_DIR = $(BUILD_DIR)/bin
 
-# Toolchain
+# Compiler
 CXX = g++
-RM = rm -f
-RMDIR = rm -rf
+CXXFLAGS = -std=c++17 -g -Og -MMD -MP
 
-# Files
+# Target
 TARGET = $(BIN_DIR)/chess
 
-SOURCES = main.cpp
+# Source files
+SOURCES = \
+	main.cpp \
+	board.cpp \
+	game.cpp \
+	piece.cpp
 
-OBJECT_NAMES = $(SOURCES:.cpp=.o)
-OBJECTS = $(patsubst %,$(OBJ_DIR)/%,$(OBJECT_NAMES))
+# Derived files
+OBJECTS = $(addprefix $(OBJ_DIR)/,$(SOURCES:.cpp=.o))
+DEPS = $(OBJECTS:.o=.d)
 
-# Flags
-WFLAGS = #-Wall -Wextra -Werror -Wshadow
-CXXFLAGS = $(WFLAGS) -Og -g -std=c++17
-LDFLAGS =
-
-# Build
 .PHONY: all clean run mrun val
 
 all: $(TARGET)
 
-# Linking
 $(TARGET): $(OBJECTS)
-	@mkdir -p $(dir $@)
-	$(CXX) $(LDFLAGS) $^ -o $@
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $^ -o $@
 
-# Compiling
 $(OBJ_DIR)/%.o: %.cpp
-	@mkdir -p $(dir $@)
+	@mkdir -p $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 run: $(TARGET)
 	./$(TARGET)
 
-mrun:
-	clear
-	$(MAKE) clean
-	$(MAKE)
+mrun: $(TARGET)
+	@clear
 	./$(TARGET)
 
-val:
-	clear
-	$(MAKE) clean
-	$(MAKE)
+val: $(TARGET)
+	@clear
 	valgrind ./$(TARGET)
 
 clean:
-	$(RMDIR) $(BUILD_DIR)
+	rm -rf $(BUILD_DIR)
+
+-include $(DEPS)

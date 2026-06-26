@@ -27,6 +27,4 @@ public:
     void gameLoop();
 };
 
-#include "game.cpp"
-
 #endif

@@ -1,10 +1,10 @@
 #include <iostream>
 #include "game.h"
 
+using namespace std;
+
 int main() {
     Game *chess = new Game(1);
-
-    cout << endl;
 
     chess->gameLoop();
 

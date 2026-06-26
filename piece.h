@@ -19,6 +19,4 @@ public:
     void printPiece();
 };
 
-#include "piece.cpp"
-
 #endif

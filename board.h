@@ -22,6 +22,4 @@ public:
     int getType(int, int);
 };
 
-#include "board.cpp"
-
 #endif

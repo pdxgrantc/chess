@@ -15,33 +15,45 @@ Board::Board(/* args */)
     setupBoard();
 }
 
+Board::Board(int i)
+{
+    switch (i)
+    {
+    case 1:
+        setupTestBoard();
+        break;
+    default:
+        setupBoard();
+        break;
+    }
+}
+
 Board::~Board()
 {
 }
 
+int Board::getPlayer(int i, int j)
+{
+    return board[i][j].player;
+}
+
+int Board::getType(int i, int j)
+{
+    return board[i][j].type;
+}
+
 void Board::printBoard()
 {
-    // print from 0.0 to 0.7 then up to 7 row counter
-
-    // TODO fix print order so that white is printed in the correct 1a side of the board
     int i, j;
 
-    for (i = 7; i > -1; i--)
-    {
-        cout << "i: " << i << " j: ";
-        for (j = 0; j < 8; j++)
-        {
-            cout << j << " ";
-        }
-        cout << endl;
-    }
-
+    // Prints the header A-H
     std::cout << " \n ";
     for (j = 0; j < 8; j++)
     {
         std::cout << "   " << printHeader[j];
     }
     cout << endl;
+
     for (i = 7; i > -1; i--)
     {
         std::cout << "  ---------------------------------" << std::endl;
@@ -54,39 +66,15 @@ void Board::printBoard()
         std::cout << " |" << std::endl;
     }
     std::cout << "  ---------------------------------" << std::endl;
-
-    /*
-    std::cout << std::endl << " ";
-    // I is for row and  j is for column
-    for (j = 0; j < 8; j++)
-    {
-        std::cout << "   " << printHeader[i];
-    }
-    std::cout << "  " ;
-    std::cout << std::endl;
-    for (i = 7; i > -1; i--)
-    {
-        std::cout << "I: " << j << std::endl;
-        std::cout << "  ---------------------------------" << std::endl;
-        std::cout << (i);
-        for (j = 0; j < 8; j++)
-        {
-            std::cout << " | ";
-            board[(i - 1)][j].printPiece();
-        }
-        std::cout << " |" << std::endl;
-    }
-    std::cout << "  ---------------------------------" << std::endl;
-    */
 }
 
-void Board::setupBoard()
+void Board::setupBoard() // Default Setup for new game with white on bottom
 {
     // White is on ranks 1,2
     // Black is on ranks 7,8
-    int i, j;
-    // player 1
-    for (i = 0; i < 8; i++)
+
+    // Pawns
+    for (int i = 0; i < 8; i++)
     {
         board[1][i].setPiece(0, 1);
         board[6][i].setPiece(1, 1);
@@ -113,6 +101,20 @@ void Board::setupBoard()
     board[0][4].setPiece(0, 6);
     board[7][4].setPiece(1, 6);
 
+    printBoard();
+}
+
+void Board::setupTestBoard()
+{
+    for (int i = 0; i < 8; i++)
+    {
+        board[1][i].setPiece(0, 1);
+        board[6][i].setPiece(1, 1);
+    }
+
+    // King
+    board[5][4].setPiece(0, 6);
+    board[7][4].setPiece(1, 6);
     printBoard();
 }
 

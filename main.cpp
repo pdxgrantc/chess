@@ -2,7 +2,11 @@
 #include "game.h"
 
 int main() {
-    Game *chess = new Game;
+    Game *chess = new Game(1);
+
+    cout << endl;
+
+    chess->gameLoop();
 
     delete chess;
     return 0;

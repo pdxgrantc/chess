@@ -11,10 +11,14 @@ private:
     void setupBoard();
     char printHeader[9] = "ABCDEFGH";
 
+    void setupTestBoard();
 public:
     Board(/* args */);
+    Board(int i);
     ~Board();
     void printBoard();
+    int getPlayer(int, int);
+    int getType(int, int);
 };
 
 #include "board.cpp"

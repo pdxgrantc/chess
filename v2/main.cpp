@@ -4,9 +4,9 @@
 using namespace std;
 
 int main() {
-    Game *chess = new Game(1);
+    Game *chess = new Game();
 
-    chess->gameLoop();
+    chess->startGame();
 
     delete chess;
     return 0;

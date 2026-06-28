@@ -22,9 +22,8 @@ private:
 
 public:
     Game();
-    Game(int);
     ~Game();
-    void gameLoop();
+    void startGame();
 };
 
 #endif

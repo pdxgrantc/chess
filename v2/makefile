@@ -15,7 +15,8 @@ SOURCES = \
 	main.cpp \
 	board.cpp \
 	game.cpp \
-	piece.cpp
+	piece.cpp \
+	helpers.cpp
 
 # Derived files
 OBJECTS = $(addprefix $(OBJ_DIR)/,$(SOURCES:.cpp=.o))

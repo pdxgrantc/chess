@@ -13,6 +13,8 @@ private:
     bool isInCheck(int, int);
     // Specific piece check finding functions
     std::pair<int, int> findKing();
+    
+
     bool findPawnCheck(int, int, int, int);
     bool findKnightCheck(int, int, int, int);
     bool findBishopCheck(int, int, int, int);

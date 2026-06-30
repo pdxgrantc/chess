@@ -2,10 +2,13 @@
 #define GAME_CPP
 
 #include <iostream>
+#include <string>
+#include <regex>
 
 using namespace std;
 
 #include "game.h"
+#include "helpers.h"
 
 Game::Game()
 {
@@ -20,6 +23,11 @@ Game::~Game()
     delete gameBoard;
 }
 
-void Game::startGame() {}
+void Game::startGame()
+{
+    takeInput(player_to_move);
+}
+
+
 
 #endif

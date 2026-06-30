@@ -9,15 +9,24 @@
 
 using namespace std;
 
-string toLowercase(string input)
+#include <string>
+#include <cctype>
+
+string convertMoveToNumbers(string input)
 {
     string output;
 
-    for (unsigned char c : input)
+    for (char c : input)
     {
-        if (isalnum(c))
+        c = tolower(c);
+
+        if (c >= 'a' && c <= 'h')
         {
-            output += tolower(c);
+            output += char('1' + (c - 'a'));
+        }
+        else if (c >= '1' && c <= '8')
+        {
+            output += c;
         }
     }
 
@@ -26,8 +35,8 @@ string toLowercase(string input)
 
 Move takeInput(int player_to_move)
 {
-    std::string userInput;
-    std::regex pattern("^[A-Ha-h][1-8][A-Ha-h][1-8]$");
+    string userInput;
+    regex pattern("^[A-Ha-h][1-8][A-Ha-h][1-8]$");
 
     while (true)
     {
@@ -45,13 +54,13 @@ Move takeInput(int player_to_move)
         break;
     }
 
-    userInput = toLowercase(userInput);
-
+    userInput = convertMoveToNumbers(userInput);
+    
     Move returnVal;
-    returnVal.oi = 0;
-    returnVal.oj = 0;
-    returnVal.ni = 0;
-    returnVal.nj = 0;
+    returnVal.oi = userInput[0] - 1;
+    returnVal.oj = userInput[1] - 1;
+    returnVal.ni = userInput[2] - 1;
+    returnVal.nj = userInput[3] - 1;
 
     return returnVal;
 }
